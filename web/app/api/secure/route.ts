@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
-import { trace, context } from "@opentelemetry/api";
+import { trace, context, Span } from "@opentelemetry/api";
 
 export const GET = auth(function GET(req) {
   if (req.auth) return NextResponse.json(req.auth);
@@ -8,14 +8,12 @@ export const GET = auth(function GET(req) {
   const currentContext = context.active();
   const tracer = trace.getTracer("next-app");
   const span = tracer.startSpan(__filename);
-  context.with(trace.setSpan(currentContext, span), () => {
-    console.log({
-      traceId: span.spanContext().traceId,
-      spanId: span.spanContext().spanId,
-      Body: {
-        message: "Not authenticated",
-      },
-    });
+  console.error({
+    traceId: span.spanContext().traceId,
+    spanId: span.spanContext().spanId,
+    Body: {
+      message: "Not authenticated",
+    },
   });
   span.end();
 
