@@ -47,9 +47,9 @@ http:
       # tls:
       #   options: client-auth@file
     whoami:
-      entryPoints:
-        # - "web"
-        - "websecure"
+      # entryPoints:
+      #   - "web"
+      #   - "websecure"
       rule: "Host(`whoami.aimerzarashi.com`)"
       service: whoami
       tls: {}
@@ -76,8 +76,8 @@ http:
       loadBalancer:
         # serversTransport: mytransport@file
         servers:
-          # - url: http://whoami:80
-          - url: https://whoami:443
+          - url: http://whoami:80
+          # - url: https://whoami:443
     web:
       loadBalancer:
         servers:
